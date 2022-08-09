@@ -1,0 +1,82 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { filterCategoryThunk, filterNameThunk, getProductsThunk } from "../store/slices/products.slice"
+import { useDispatch, useSelector } from 'react-redux';
+import { Row, Col, Card, InputGroup, Form, Button, ListGroup } from "react-bootstrap"
+import { useNavigate } from 'react-router';
+
+const Home = () => {
+
+    const products = useSelector(state => state.products);
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [searchValue, setSearchValue] = useState(" ");
+    const [categories, setCategories] = useState([])
+
+    useEffect(() => {
+        dispatch(getProductsThunk());
+
+        axios.get("https://ecommerce-api-react.herokuapp.com/api/v1/products/categories")
+            .then(res => setCategories(res.data.data.categories))
+    }, []);
+
+    console.log(categories);
+
+    return (
+        <div>
+            <Row>
+                <Col lg={3}>
+                    <ListGroup>
+                        {
+                            categories.map(category => (
+                                <ListGroup.Item 
+                                    key={category.id}
+                                    onClick = {() => dispatch(filterCategoryThunk(category.id))}
+                                    >
+                                    {category.name}
+                                    
+                                </ListGroup.Item>
+                            ))
+                        }
+                    </ListGroup>
+                </Col>
+
+                <Col>
+                    <InputGroup className="mb-3">
+                        <Form.Control
+                            placeholder="type here what you are looking for"
+                            aria-label="Recipient's username"
+                            aria-describedby="basic-addon2"
+                            value={searchValue}
+                            onChange={e => setSearchValue(e.target.value)}
+                        />
+                        <Button variant="outline-secondary" onClick={() => dispatch(filterNameThunk(searchValue))}>
+                            Search
+                        </Button>
+                    </InputGroup>
+
+                    <Row xs={1} md={4} className="g-4">
+                        {
+                            products.map(product => (
+                                <Col key={product.id}>
+                                    <Card onClick={() => navigate(`/products/${product.id}`)}>
+                                        <Card.Img variant="top" src={product.productImgs} style={{ objectFit: "contain", height: "200px" }} />
+                                        <Card.Body>
+                                            <Card.Title>{product.title}</Card.Title>
+                                            <p><b>${product.price}</b></p>
+                                            <Card.Text>
+
+                                            </Card.Text>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                            ))}
+                    </Row>
+                </Col>
+            </Row>
+        </div>
+    );
+};
+
+export default Home;
