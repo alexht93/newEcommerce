@@ -1,6 +1,6 @@
 import { HashRouter, Routes, Route } from 'react-router-dom'
-import { Home, Login, ProductDetail, Purchases } from './pages'
-import { LoadingScreen, NavBar } from "./Components";
+import { Home, Login, ProductDetail, Purchases } from './pages/Index'
+import { LoadingScreen, NavBar, ProtectedRoutes } from "./Components/Index";
 import './App.css'
 import { useSelector } from 'react-redux'
 
@@ -15,14 +15,16 @@ function App() {
   return (
     <HashRouter >
       <NavBar />
-      { isLoading && <LoadingScreen />}
+      {isLoading && <LoadingScreen />}
       <Routes >
         <Route path='/' element={<Home />} />
         <Route path='/products/:id' element={<ProductDetail />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/purchases' element={<Purchases />} />
-      </Routes>
-    </HashRouter>
+        <Route element={<ProtectedRoutes />} >
+           <Route path='/purchases' element={<Purchases />} />
+        </Route>
+    </Routes>
+    </HashRouter >
   )
 }
 

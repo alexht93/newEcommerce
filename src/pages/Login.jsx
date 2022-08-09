@@ -12,7 +12,10 @@ const Login = () => {
     const submit = data => {
         axios
             .post("https://ecommerce-api-react.herokuapp.com/api/v1/users/login", data)
-            .then(res => navigate("/"))
+            .then(res =>{
+                navigate("/")
+                localStorage.setItem("token", res.data.data.token);
+            })
             .catch((error) => {
                 if (error.response.status === 404) {
                     alert("Credenciales Incorrectas");
