@@ -6,13 +6,13 @@ import { useNavigate } from "react-router-dom"
 
 const Login = () => {
 
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, reset } = useForm();
     const navigate = useNavigate();
 
     const submit = data => {
         axios
             .post("https://ecommerce-api-react.herokuapp.com/api/v1/users/login", data)
-            .then(res =>{
+            .then(res => {
                 navigate("/")
                 localStorage.setItem("token", res.data.data.token);
             })
@@ -22,6 +22,10 @@ const Login = () => {
                 }
                 console.log(error.reponse);
             });
+        reset({
+            email: "",
+            password: ""
+        });
     };
 
     return (

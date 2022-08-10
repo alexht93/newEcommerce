@@ -24,10 +24,10 @@ const Home = () => {
     console.log(categories);
 
     return (
-        <div>
+        <div className='App'>
             <Row>
                 <Col lg={3}>
-                    <ListGroup>
+                    <ListGroup className="m-3">
                         {
                             categories.map(category => (
                                 <ListGroup.Item 
@@ -43,7 +43,7 @@ const Home = () => {
                 </Col>
 
                 <Col>
-                    <InputGroup className="mb-3">
+                    <InputGroup className="mb-3 mt-3">
                         <Form.Control
                             placeholder="type here what you are looking for"
                             aria-label="Recipient's username"
