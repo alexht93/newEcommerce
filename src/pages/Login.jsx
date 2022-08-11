@@ -29,8 +29,9 @@ const Login = () => {
     };
 
     return (
-        <div>
-            <h1>Login </h1>
+        <div style={{height: "80vh", display:"flex", justifyContent:"center", alignItems:"center"}}>
+           <div style={{width:"30%"}}>
+           <h1>Login </h1>
             <Form onSubmit={handleSubmit(submit)}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
@@ -46,9 +47,10 @@ const Login = () => {
                 </Form.Group>
 
                 <Button variant="primary" type="submit">
-                    Submit
+                    Log In
                 </Button>
             </Form>
+           </div>
         </div>
     );
 };

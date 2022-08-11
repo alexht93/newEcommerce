@@ -1,3 +1,20 @@
 .App {
   text-align: center;
 }
+.cursor{
+  cursor: pointer;
+}
+
+.purchases-card{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.border{
+  width: 20%;
+  height: auto;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  margin: 5px;
+  border-radius: 20px;
+}

@@ -25,12 +25,14 @@ const Home = () => {
 
     return (
         <div className='App'>
-            <Row>
+            <Row style={{width: "99%"}}>
+                <h1>Home</h1>
                 <Col lg={3}>
                     <ListGroup className="m-3">
+                       <ListGroup.Item> <h4>Categories</h4> </ListGroup.Item>
                         {
                             categories.map(category => (
-                                <ListGroup.Item 
+                                <ListGroup.Item className='cursor'
                                     key={category.id}
                                     onClick = {() => dispatch(filterCategoryThunk(category.id))}
                                     >
@@ -56,7 +58,7 @@ const Home = () => {
                         </Button>
                     </InputGroup>
 
-                    <Row xs={1} md={4} className="g-4">
+                    <Row xs={1} md={4} className="g-4 cursor">
                         {
                             products.map(product => (
                                 <Col key={product.id}>
