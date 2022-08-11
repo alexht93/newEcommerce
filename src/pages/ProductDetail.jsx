@@ -2,13 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Button, Card, Carousel, Form, InputGroup } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { addCartThunk } from '../store/slices/cart.slice';
 import { getProductsThunk } from '../store/slices/products.slice';
+
+
 
 const ProductDetail = () => {
 
     const allProducts = useSelector(state => state.products);
     const [productDetail, setProductDetail] = useState({});
     const [suggestedProducts, setSuggestedProducts] = useState([]);
+    const [quantity, setQuantity] = useState(1);
 
 
     const { id } = useParams();
@@ -34,8 +38,11 @@ const ProductDetail = () => {
     const addCart = () => {
         alert("adding to cart")
         const cart = {
-            status: productDetail.status,
+            id: productDetail.id,
+            quantity: quantity
+            
         }
+        dispatch(addCartThunk(cart));
         console.log(cart)
     }
 
@@ -44,18 +51,19 @@ const ProductDetail = () => {
     return (
         <div >
             <h1 style={{ textAlign: "center" }}>Product Details</h1>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center"}}>
                 <div >
-                    <InputGroup className="mb-3">
+                    <InputGroup className="mb-3" style={{width:"150px"}}>
                         <Form.Control
-                            placeholder="add to cart"
                             aria-label="Recipient's username"
                             aria-describedby="basic-addon2"
+                            value={quantity}
+                            onChange={e => setQuantity(e.target.value)}
                         />
                         <Button variant="outline-secondary" id="button-addon2"
                             onClick={addCart}
                         >
-                            Add
+                            Add to Cart
                         </Button>
                     </InputGroup>
                 </div>
@@ -93,7 +101,6 @@ const ProductDetail = () => {
 
             <br />
             <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-
                 {
                     suggestedProducts.map(product => (
                         <div

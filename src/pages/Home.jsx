@@ -4,6 +4,7 @@ import { filterCategoryThunk, filterNameThunk, getProductsThunk } from "../store
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Card, InputGroup, Form, Button, ListGroup } from "react-bootstrap"
 import { useNavigate } from 'react-router';
+import { addCartThunk } from '../store/slices/cart.slice';
 
 const Home = () => {
 
@@ -20,6 +21,16 @@ const Home = () => {
         axios.get("https://ecommerce-api-react.herokuapp.com/api/v1/products/categories")
             .then(res => setCategories(res.data.data.categories))
     }, []);
+
+    const addCart = (id) =>{
+        alert("adding to cart")
+       const cart = {
+        id: id, 
+        quantity: 1
+       }
+       dispatch(addCartThunk(cart));
+       console.log(cart)
+    }
 
     console.log(categories);
 
@@ -58,19 +69,17 @@ const Home = () => {
                         </Button>
                     </InputGroup>
 
-                    <Row xs={1} md={4} className="g-4 cursor">
+                    <Row xs={1} md={4} className="g-4 cursor" >
                         {
                             products.map(product => (
-                                <Col key={product.id}>
-                                    <Card onClick={() => navigate(`/products/${product.id}`)}>
+                                <Col key={product.id} >
+                                    <Card style={{height:"350px"}}>
                                         <Card.Img variant="top" src={product.productImgs} style={{ objectFit: "contain", height: "200px" }} />
-                                        <Card.Body>
+                                        <Card.Body onClick={() => navigate(`/products/${product.id}`)}>
                                             <Card.Title>{product.title}</Card.Title>
                                             <p><b>${product.price}</b></p>
-                                            <Card.Text>
-
-                                            </Card.Text>
                                         </Card.Body>
+                                        <button onClick={() => addCart(product.id) }> <i className="fa-solid fa-cart-plus"></i></button>
                                     </Card>
                                 </Col>
                             ))}
