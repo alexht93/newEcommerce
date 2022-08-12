@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Offcanvas } from 'react-bootstrap';
-import {useNavigate} from "react-router-dom"
-import { getCartThunk } from '../store/slices/cart.slice';
+import { Button, Card, Offcanvas } from 'react-bootstrap';
+import { useNavigate } from "react-router-dom"
+import { buyCartThunk, getCartThunk } from '../store/slices/cart.slice';
 
 const Cart = ({ show, handleClose }) => {
 
@@ -15,27 +15,47 @@ const Cart = ({ show, handleClose }) => {
         dispatch(getCartThunk());
     }, [])
 
+    const getTotal = (products) => {
+        let total = 0
+        cart.forEach(cart => {
+            total += Number(cart.price)
+        });
+        return total
+    }
+
     return (
         <Offcanvas show={show} onHide={handleClose} placement="end">
             <Offcanvas.Header closeButton>
-                <Offcanvas.Title>Shopping Cart</Offcanvas.Title>
+                <Offcanvas.Title> <h1>Shopping Cart</h1> </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body className='cursor'>
-               <ul >
-               {cart.map(cart => (
-                    <li key={cart.id}
-                    onClick={() => navigate(`/products/${cart.productsInCart.productId}`)}>
-                        <b>Brand: </b>
-                        <h6>{cart.brand}</h6>
-                        <b>Name: </b>
-                        <h6>{cart.title}</h6>
-                        <b>Price: </b>
-                        <h6>${cart.price}</h6>
-                    </li>
-                ))
+                <div >
+                    {cart.map(cart => (
+                        <Card
+                            key={cart.id}
+                            style={{ width: '18rem', backgroundColor: "black", color: "white" }}
+                            className="mb-2 mt-3"
+                            onClick={() => navigate(`/products/${cart.productsInCart.productId}`)}
+                        >
+                            <Card.Header style={{borderBottom:"white 1px solid"}}>Brand: {cart.brand}</Card.Header>
+                            <Card.Body>
+                                <Card.Title>Name: {cart.title}</Card.Title>
+                                <Card.Text>
+                                   Price: ${cart.price}
+                                </Card.Text>
+                            </Card.Body>
+                        </Card>
+                    ))
 
-                }
-               </ul>
+                    }
+                </div>
+                <div>
+                    <strong>Total: </strong> 
+                    <p><b>${getTotal(cart.price)}.00</b></p>
+                </div>
+                <Button onClick={() => dispatch(buyCartThunk())} className="mt-2">
+                    CHECKOUT
+                </Button>
             </Offcanvas.Body>
         </Offcanvas>
     );

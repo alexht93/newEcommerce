@@ -74,8 +74,8 @@ const Home = () => {
                             products.map(product => (
                                 <Col key={product.id} >
                                     <Card style={{height:"350px"}}>
-                                        <Card.Img variant="top" src={product.productImgs} style={{ objectFit: "contain", height: "200px" }} />
-                                        <Card.Body onClick={() => navigate(`/products/${product.id}`)}>
+                                        <Card.Img variant="top" src={product.productImgs} style={{ objectFit: "contain", height: "200px" }} onClick={() => navigate(`/products/${product.id}`)}/>
+                                        <Card.Body >
                                             <Card.Title>{product.title}</Card.Title>
                                             <p><b>${product.price}</b></p>
                                         </Card.Body>

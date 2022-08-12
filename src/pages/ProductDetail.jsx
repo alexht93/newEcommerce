@@ -46,6 +46,8 @@ const ProductDetail = () => {
         console.log(cart)
     }
 
+ 
+
 
 
     return (
